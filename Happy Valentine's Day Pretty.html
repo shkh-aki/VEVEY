@@ -1,0 +1,903 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>For My Pretty Little Lady 💗</title>
+  <style>
+    :root{
+      --bg1:#0f0c29; --bg2:#302b63; --bg3:#24243e;
+      --glass: rgba(255,255,255,.08);
+      --border: rgba(255,255,255,.14);
+      --text:#eef0ff; --muted:#c2c3e6;
+      --pink:#ff5aa5; --pink2:#ff86c7; --violet:#8b5cf6; --cyan:#22d3ee;
+      --shadow: 0 26px 70px rgba(0,0,0,.45);
+      --r: 22px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 700px at 15% 10%, rgba(255,90,165,.18), transparent 55%),
+        radial-gradient(1000px 700px at 85% 20%, rgba(139,92,246,.20), transparent 55%),
+        linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));
+      overflow-x:hidden;
+    }
+
+    /* Floating hearts ambience */
+    .hearts{position:fixed; inset:0; pointer-events:none; opacity:.50; z-index:0; filter: drop-shadow(0 8px 16px rgba(0,0,0,.35));}
+    .heart{position:absolute; width:16px;height:16px; transform:rotate(45deg); background:rgba(255,90,165,.82); border-radius:4px; animation:floatUp linear infinite;}
+    .heart:before,.heart:after{content:""; position:absolute; width:16px;height:16px; background:inherit; border-radius:50%;}
+    .heart:before{left:-8px; top:0}
+    .heart:after{top:-8px; left:0}
+    @keyframes floatUp{
+      from{transform:translateY(120vh) rotate(45deg); opacity:0}
+      10%{opacity:.95}
+      to{transform:translateY(-30vh) rotate(45deg); opacity:0}
+    }
+
+    .wrap{position:relative; z-index:1; min-height:100%; display:flex; flex-direction:column; align-items:center; gap:16px; padding:26px 14px 36px;}
+    .topbar{width:min(1120px,100%); display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap;}
+    .brand{
+      padding:12px 14px; border-radius:18px;
+      background:linear-gradient(180deg,var(--glass),rgba(255,255,255,.03));
+      border:1px solid var(--border);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 14px 34px rgba(0,0,0,.25);
+      display:flex; flex-direction:column; gap:2px;
+      max-width: 560px;
+    }
+    .brand .t{font-weight:900; letter-spacing:.2px; display:flex; align-items:center; gap:10px;}
+    .brand .s{color:var(--muted); font-size:12px; line-height:1.35}
+
+    /* UIverse-ish buttons */
+    .btn{
+      border:0; cursor:pointer; user-select:none;
+      border-radius:999px; padding:12px 16px;
+      font-weight:900; letter-spacing:.2px;
+      background: linear-gradient(135deg,var(--pink),var(--pink2));
+      color:#0b0a14;
+      box-shadow: 0 14px 34px rgba(255,90,165,.22), inset 0 0 0 1px rgba(255,255,255,.25);
+      transition: transform .15s ease, filter .15s ease;
+      display:inline-flex; align-items:center; gap:10px;
+      white-space:nowrap;
+    }
+    .btn:hover{transform:translateY(-1px); filter:brightness(1.03)}
+    .btn:active{transform:translateY(1px)}
+    .btn.ghost{
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow: 0 14px 34px rgba(0,0,0,.22);
+      backdrop-filter: blur(10px);
+    }
+    .btn.secondary{
+      background: linear-gradient(135deg, rgba(139,92,246,.95), rgba(34,211,238,.9));
+      color:#070614;
+      box-shadow: 0 14px 34px rgba(139,92,246,.20), inset 0 0 0 1px rgba(255,255,255,.22);
+    }
+    .btn.small{padding:10px 14px; font-size:13px}
+
+    .controls{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; align-items:center;}
+
+    .stage{width:min(1120px,100%); display:grid; grid-template-columns: 1.2fr .8fr; gap:16px; align-items:start;}
+    @media (max-width: 980px){ .stage{grid-template-columns:1fr;} }
+
+    .panel{
+      border-radius: var(--r);
+      background: linear-gradient(180deg, var(--glass), rgba(255,255,255,.03));
+      border:1px solid var(--border);
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    /* Book */
+    .bookWrap{padding:14px; display:flex; flex-direction:column; gap:12px;}
+    .bookTop{display:flex; justify-content:space-between; align-items:flex-end; gap:10px; flex-wrap:wrap; padding:6px 6px 0;}
+    .bookTop h2{margin:0; font-size:16px; letter-spacing:.2px}
+    .meta{color:var(--muted); font-size:12px; line-height:1.4}
+
+    .page{
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.12);
+      background:
+        radial-gradient(700px 420px at 30% 20%, rgba(255,90,165,.12), transparent 55%),
+        radial-gradient(650px 420px at 70% 25%, rgba(34,211,238,.10), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      min-height: 560px;
+      padding:18px;
+      overflow:auto;
+    }
+    @media (max-width: 700px){ .page{min-height: 620px;} }
+
+    .kicker{font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.3px}
+    .headline{margin:4px 0 10px; font-size:28px; line-height:1.15; font-weight:950; letter-spacing:.2px}
+    .accent{
+      background: linear-gradient(135deg,var(--pink),var(--violet));
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
+    .para{margin:0; line-height:1.68; font-size:14.6px; color:#eaebff}
+    .para.muted{color:var(--muted)}
+    .divider{height:1px; background:rgba(255,255,255,.10); margin:14px 0}
+
+    .cards{display:grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap:10px}
+    @media (max-width:520px){ .cards{grid-template-columns:1fr} }
+    .card{
+      border:1px solid rgba(255,255,255,.12);
+      border-radius: 16px;
+      padding:12px;
+      background: rgba(255,255,255,.05);
+    }
+    .card b{display:block; margin-bottom:6px}
+    .card p{margin:0; color:var(--muted); line-height:1.55; font-size:13px}
+
+    /* Polaroids */
+    .polaroidGrid{display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:12px}
+    @media (max-width:520px){ .polaroidGrid{grid-template-columns:1fr} }
+    .polaroid{
+      background: rgba(255,255,255,.92);
+      color:#121224;
+      border-radius: 14px;
+      padding:10px 10px 16px;
+      box-shadow: 0 18px 44px rgba(0,0,0,.35);
+      transform: rotate(var(--rot,-1deg));
+      transition: transform .18s ease;
+      position:relative;
+    }
+    .polaroid:hover{transform: rotate(var(--rot,-1deg)) translateY(-2px)}
+    .polaroid img{
+      width:100%; height:190px; object-fit:cover;
+      border-radius: 10px; display:block; background:#ddd;
+      cursor: zoom-in;
+    }
+    .cap{margin-top:10px; font-weight:900; font-size:13px; display:flex; justify-content:space-between; gap:10px}
+    .cap small{opacity:.75; font-weight:800}
+
+    /* Sidebar */
+    .sideWrap{padding:14px; display:flex; flex-direction:column; gap:12px;}
+    .widget{
+      padding:14px;
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      box-shadow: 0 12px 30px rgba(0,0,0,.25);
+    }
+    .widget h3{margin:0 0 10px; font-size:14px; letter-spacing:.2px; display:flex; justify-content:space-between; align-items:center; gap:10px}
+    .pill{
+      font-size:12px; padding:6px 10px; border-radius:999px;
+      background: rgba(255,90,165,.15);
+      border:1px solid rgba(255,90,165,.25);
+      color:#ffd1e7;
+      font-weight:900;
+      white-space:nowrap;
+    }
+    .prog{width:100%; height:12px; border-radius:999px; background: rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.10); overflow:hidden}
+    .bar{height:100%; width:0%; border-radius:999px; background: linear-gradient(90deg,var(--pink),var(--violet),var(--cyan)); transition: width .25s ease}
+    .toast{
+      margin-top:10px;
+      padding:10px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(34,211,238,.20);
+      background: rgba(34,211,238,.10);
+      color:#d8fbff;
+      display:none;
+      font-size:13px;
+      line-height:1.5;
+    }
+    .list{display:flex; flex-direction:column; gap:8px}
+    .tocBtn{
+      width:100%;
+      justify-content:space-between;
+      text-align:left;
+      padding:12px 14px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      color:var(--text);
+      font-weight:900;
+      cursor:pointer;
+      display:flex; gap:12px; align-items:center;
+      transition: transform .12s ease, filter .12s ease;
+    }
+    .tocBtn:hover{transform:translateY(-1px); filter:brightness(1.03)}
+    .tocBtn small{color:var(--muted); font-weight:800}
+
+    /* Modal */
+    .modal{position:fixed; inset:0; display:none; align-items:center; justify-content:center; padding:18px; background: rgba(0,0,0,.62); z-index:50;}
+    .modal.open{display:flex}
+    .modalCard{
+      width:min(780px,100%);
+      border-radius: 22px;
+      border:1px solid rgba(255,255,255,.14);
+      background: linear-gradient(180deg, rgba(26,22,48,.95), rgba(26,22,48,.78));
+      box-shadow: 0 28px 80px rgba(0,0,0,.55);
+      padding:16px;
+    }
+    .modalTop{display:flex; justify-content:space-between; align-items:center; gap:10px}
+    .modalTop h4{margin:0; font-size:15px; letter-spacing:.2px}
+    .bigImg{
+      width:100%;
+      height:460px;
+      object-fit:contain;
+      border-radius: 16px;
+      margin-top:12px;
+      background: rgba(0,0,0,.25);
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .modalCaption{color:var(--muted); margin-top:10px; font-size:13px; line-height:1.5}
+
+    .navRow{
+      display:flex; gap:10px; flex-wrap:wrap;
+      justify-content:space-between; align-items:center;
+      padding: 0 6px 6px;
+    }
+    .pageCount{color:var(--muted); font-size:12px}
+
+    /* GAME MODAL */
+    .gameCard{
+      width:min(920px,100%);
+      border-radius: 22px;
+      border:1px solid rgba(255,255,255,.14);
+      background: linear-gradient(180deg, rgba(26,22,48,.95), rgba(26,22,48,.78));
+      box-shadow: 0 28px 90px rgba(0,0,0,.65);
+      padding:16px;
+    }
+    .gameTop{display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;}
+    .hud{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+      color:var(--muted); font-size:12px;
+    }
+    .hud b{color:var(--text)}
+    canvas{
+      width:100%;
+      height:520px;
+      display:block;
+      border-radius: 18px;
+      margin-top:12px;
+      background:
+        radial-gradient(800px 520px at 30% 20%, rgba(255,90,165,.18), transparent 60%),
+        radial-gradient(800px 520px at 70% 30%, rgba(34,211,238,.14), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .hint{color:var(--muted); font-size:12px; margin-top:10px; line-height:1.5}
+    .foot{width:min(1120px,100%); color: rgba(194,195,230,.9); font-size:12px; text-align:center; margin-top:6px}
+  </style>
+</head>
+<body>
+  <div class="hearts" id="hearts"></div>
+
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="t">For My Pretty <span aria-hidden="true">💗</span></div>
+        <div class="s">All love. All appreciation. No pressure — just calm love from Vevey.</div>
+      </div>
+
+      <div class="controls">
+        <button class="btn ghost small" id="burstBtn">✨ Hearts</button>
+        <button class="btn secondary small" id="openGameBtn">💐 Catch Hearts (Game)</button>
+      </div>
+    </div>
+
+    <div class="stage">
+      <!-- BOOK -->
+      <section class="panel bookWrap">
+        <div class="bookTop">
+          <h2>Happy Valentine’s Day, Pretty 💞</h2>
+          <div class="meta">Use <b>← →</b> or buttons • Tap photos to zoom • (Game: drag bouquet)</div>
+        </div>
+
+        <div class="page" id="page"></div>
+
+        <div class="navRow">
+          <div class="pageCount" id="pageCount">Page 1 / 1</div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="btn ghost" id="prevBtn">← Prev</button>
+            <button class="btn" id="nextBtn">Next →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- SIDEBAR -->
+      <aside class="panel sideWrap">
+        <div class="widget">
+          <h3>Table of Contents <span class="pill">jump</span></h3>
+          <div class="list" id="toc"></div>
+        </div>
+
+        <div class="widget">
+          <h3>Love meter <span class="pill" id="meterLabel">0%</span></h3>
+          <div class="prog"><div class="bar" id="bar"></div></div>
+          <div class="divider"></div>
+          <button class="btn small" id="addLove">+ Add love</button>
+          <button class="btn ghost small" id="resetLove" style="margin-left:8px;">Reset</button>
+          <div class="toast" id="meterToast"></div>
+        </div>
+      </aside>
+    </div>
+
+    <div class="foot">Made with calm love — page by page. 💗</div>
+  </div>
+
+  <!-- Photo Modal -->
+  <div class="modal" id="modal">
+    <div class="modalCard">
+      <div class="modalTop">
+        <h4 id="modalTitle">Our photo 📸</h4>
+        <button class="btn ghost small" id="closeModal">Close</button>
+      </div>
+      <img class="bigImg" id="modalImg" alt="Big preview" />
+      <div class="modalCaption" id="modalCaption"></div>
+    </div>
+  </div>
+
+  <!-- Game Modal -->
+  <div class="modal" id="gameModal">
+    <div class="gameCard">
+      <div class="gameTop">
+        <div>
+          <h4 style="margin:0;">💐 Catch Falling Hearts</h4>
+          <div class="hint">Drag / move the bouquet to catch hearts. Infinite score. Speed increases over time.</div>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="btn secondary small" id="startGameBtn">▶ Start</button>
+          <button class="btn ghost small" id="closeGameBtn">Close</button>
+        </div>
+      </div>
+
+      <div class="hud">
+        <div>Score: <b id="score">0</b></div>
+        <div>Best: <b id="best">0</b></div>
+        <div>Speed: <b id="spd">1.0x</b></div>
+      </div>
+
+      <canvas id="game" width="900" height="520"></canvas>
+      <div class="hint">Tip: On phone, just slide your finger left/right. On PC, drag bouquet or move mouse.</div>
+    </div>
+  </div>
+
+<script>
+  // ===== Hearts ambience =====
+  const hearts = document.getElementById("hearts");
+  function spawnHearts(count=14){
+    for(let i=0;i<count;i++){
+      const h = document.createElement("div");
+      h.className = "heart";
+      const left = Math.random()*100;
+      const size = 10 + Math.random()*18;
+      const dur = 6 + Math.random()*8;
+      const delay = Math.random()*2;
+      const hue = Math.random() < .6 ? 330 : 290;
+      h.style.left = left + "vw";
+      h.style.width = size + "px";
+      h.style.height = size + "px";
+      h.style.animationDuration = dur + "s";
+      h.style.animationDelay = delay + "s";
+      h.style.background = `hsla(${hue}, 100%, 70%, 0.78)`;
+      hearts.appendChild(h);
+      setTimeout(()=> h.remove(), (dur + delay)*1000);
+    }
+  }
+  setInterval(()=> spawnHearts(6), 1200);
+  spawnHearts(20);
+  document.getElementById("burstBtn").addEventListener("click", ()=> spawnHearts(45));
+
+  // ===== Photo Modal =====
+  const modal = document.getElementById("modal");
+  const modalImg = document.getElementById("modalImg");
+  const modalCaption = document.getElementById("modalCaption");
+  function openModal(src, caption){
+    modal.classList.add("open");
+    modalImg.src = src;
+    modalCaption.textContent = caption || "";
+  }
+  function closeModal(){
+    modal.classList.remove("open");
+    modalImg.src = "";
+    modalCaption.textContent = "";
+  }
+  document.getElementById("closeModal").addEventListener("click", closeModal);
+  modal.addEventListener("click", (e)=>{ if(e.target === modal) closeModal(); });
+
+  // ===== Your images (IMPORTANT: filenames MUST match EXACTLY) =====
+  // Put them inside: /images/ folder
+  const photos = [
+  {src:"images/IMG_20250920_221457_592.jpg", cap:"This was the moment I appreciate your support towards, by you being present when I was performing, and you bought me my favorite Coffee."},
+  {src:"images/IMG_20251112_200505_196.jpg", cap:"Pretty, you're my favorite person to be with."},
+  {src:"images/IMG_20251112_200513_571.jpg", cap:"You are my favorite person with you, I can be my true self. I can be silly, goofy, and even a little weird — and you still love me."},
+  {src:"images/IMG_20251031_164830_823.jpg", cap:"EEyyyy, The kidnapper and and na kidnapped "},
+
+  {src:"images/IMG_20250726_230221_866.jpg", cap:"Our First Date and getting to know each other."},
+  {src:"images/IMG_20250726_230216_338.jpg", cap:"I'll Take Care Of You.🫂"},
+  {src:"images/Messenger_creation_82FE4C0E-7F73-4C40-9888-CE63FCF7CEA1.jpeg", cap:"A memory I keep in my , Kasi Love love takaa soo muuchh."},
+  {src:"images/Messenger_creation_DC3F5044-093A-4479-B1E9-230FDC856739.jpeg", cap:"Us being comfy."},
+
+  {src:"images/Messenger_creation_DCBEF1E7-B46A-4368-9874-DDBD040CA5B3.jpeg", cap:"I’m grateful for you."},
+  {src:"images/IMG_20251231_200655_467.jpg", cap:"Seeing you smile is my favorite."},
+  {src:"images/IMG_20251231_200715_268.jpg", cap:"White & Chocolate."},
+  {src:"images/IMG_20251112_200441_001.jpg", cap:"After Simba, Bonding with you made my energy full"},
+
+  {src:"images/IMG_20251112_200447_560.jpg", cap:"You’re my pretty, always."},
+  {src:"images/IMG_20251112_200424_094.jpg", cap:"Gwapa Gwapa Aking Pretty ba, tas ako murag Begger HAHAHAH."},
+  {src:"images/IMG_20251112_200424_757.jpg", cap:"Thank you for being you. I LOVE YOU SO MUCH Pretty ❤️"},
+];
+
+
+  function escapeHtml(s){
+    return (s||"").replace(/[&<>"']/g, (c)=>({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;" }[c]));
+  }
+
+  function photoPage(start, end, kicker, subtitle){
+    const slice = photos.slice(start, end);
+    return `
+      <div class="kicker">${kicker}</div>
+      <div class="headline">Polaroids of us 📸</div>
+      <p class="para muted">${subtitle}</p>
+      <div class="divider"></div>
+      <div class="polaroidGrid">
+        ${slice.map((p, i)=>`
+          <div class="polaroid" style="--rot:${(i%2===0?-2:2)}deg">
+            <img src="${p.src}" alt="photo" data-cap="${escapeHtml(p.cap)}" />
+            <div class="cap"><span>Pretty & Vevey</span><small>💗</small></div>
+          </div>
+        `).join("")}
+      </div>
+      <div class="divider"></div>
+      <p class="para muted">Tap a photo to zoom ✨</p>
+    `;
+  }
+
+  // ===== Pages (ALL LOVE only) =====
+  const pages = [
+    {
+      title:"Cover",
+      toc:"Cover • Happy Valentine’s Day",
+      render: () => `
+        <div class="kicker">Happy Valentine’s Day</div>
+        <div class="headline">Hi Pretty 💗 <span class="accent">This is for you.</span></div>
+        <p class="para">
+          I made you a little “book” — page by page — full of love and appreciation.
+          No pressure. No guilt. Just you, being loved.
+        </p>
+        <div class="divider"></div>
+        <div class="cards">
+          <div class="card"><b>What I want you to feel</b><p>Safe, cared for, and genuinely cherished.</p></div>
+          <div class="card"><b>What you mean to me</b><p>My peace, my favorite person, my Pretty.</p></div>
+          <div class="card"><b>How I love you</b><p>Softly. Patiently. Consistently. With respect.</p></div>
+          <div class="card"><b>My vibe today</b><p>Gentle love only. Always on your side. 🫂</p></div>
+        </div>
+        <div class="divider"></div>
+        <p class="para muted">Tap Next… and don’t forget the mini game 💐😌</p>
+      `
+    },
+    {
+      title:"Appreciation",
+      toc:"Appreciation • I’m proud of you",
+      render: () => `
+        <div class="kicker">Page 1</div>
+        <div class="headline">I’m proud of you, Pretty.</div>
+        <p class="para">
+          I notice your effort — even the quiet ones. I notice how you keep going,
+          and I’m proud of you. You’re doing great.
+        </p>
+        <div class="divider"></div>
+        <div class="cards">
+          <div class="card"><b>Your strength</b><p>You keep going — even when life is heavy.</p></div>
+          <div class="card"><b>Your heart</b><p>Your love shows in your own ways — and it’s real.</p></div>
+          <div class="card"><b>Your presence</b><p>Just having you in my life feels like a gift.</p></div>
+          <div class="card"><b>Your growth</b><p>Little by little, day by day — I’m here with you.</p></div>
+        </div>
+      `
+    },
+    {
+      title:"Calm Love",
+      toc:"Calm Love • No pressure",
+      render: () => `
+        <div class="kicker">Page 2</div>
+        <div class="headline">I love you softly, sincerely, and without pressure.</div>
+        <p class="para">
+          You don’t have to be perfect. All I  want is you — with your whole self, your ups and downs, your quiet days, your busy days.
+          I just want you to feel loved — gently and sincerely. YOU LOVE ME-I LOVE YOU
+        </p>
+        <div class="divider"></div>
+        <p class="para muted">
+          If your day is busy: I love you. <br/>
+          If your day is tiring: I love you. <br/>
+          If you’re quiet: I’m still here — waiting, loving you.
+        </p>
+      `
+    },
+    { title:"Photos 1", toc:"Photos • Polaroids (1)", render: ()=> photoPage(0,4,"Page 3","Our memories — small pics, big meaning.") },
+    { title:"Photos 2", toc:"Photos • Polaroids (2)", render: ()=> photoPage(4,8,"Page 4","More us. More bondings and love.") },
+    { title:"Photos 3", toc:"Photos • Polaroids (3)", render: ()=> photoPage(8,12,"Page 5","You’re my favorite person to make memories with.") },
+    { title:"Photos 4", toc:"Photos • Polaroids (4)", render: ()=> photoPage(12,16,"Page 6","Even normal days become special with you.") },
+    {
+      title:"Final",
+      toc:"Final • Happy Valentine’s Day",
+      render: () => `
+        <div class="kicker">Final Page</div>
+        <div class="headline">Happy Valentine’s Day, <span class="accent">Pretty</span> 🫂💗</div>
+        <p class="para">
+          Thank you for being in my life.
+          Thank you for the laughs, the moments, the memories — and even the quiet days.
+          I LOVE YOU SOOO SOO MUUCH🫂💗 MWAHMWAHMWAH
+        </p>
+        <div class="divider"></div>
+        <p class="para muted">PS: Try mo yung mini game Pretty heheheh💐</p>
+      `
+    },
+  ];
+
+  // ===== Page navigation =====
+  const pageEl = document.getElementById("page");
+  const pageCountEl = document.getElementById("pageCount");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  let idx = 0;
+
+  function renderPage(){
+    pageEl.innerHTML = pages[idx].render();
+    pageCountEl.textContent = `Page ${idx+1} / ${pages.length}`;
+
+    document.querySelectorAll(".polaroid img").forEach(img=>{
+      img.addEventListener("click", ()=>{
+        openModal(img.getAttribute("src"), img.dataset.cap || "");
+      });
+
+      // If image fails to load, show a helpful hint in console
+      img.addEventListener("error", ()=>{
+        console.warn("Image failed to load:", img.getAttribute("src"));
+      }, {once:true});
+    });
+
+    prevBtn.disabled = (idx === 0);
+    nextBtn.disabled = (idx === pages.length - 1);
+    prevBtn.style.opacity = prevBtn.disabled ? .6 : 1;
+    nextBtn.style.opacity = nextBtn.disabled ? .6 : 1;
+
+    pageEl.animate([{transform:"translateY(6px)", opacity:.0},{transform:"translateY(0)", opacity:1}], {duration:220, easing:"ease-out"});
+  }
+  prevBtn.addEventListener("click", ()=>{ if(idx>0){ idx--; renderPage(); } });
+  nextBtn.addEventListener("click", ()=>{ if(idx<pages.length-1){ idx++; renderPage(); } });
+  document.addEventListener("keydown", (e)=>{
+    if(e.key === "ArrowLeft" && idx>0){ idx--; renderPage(); }
+    if(e.key === "ArrowRight" && idx<pages.length-1){ idx++; renderPage(); }
+    if(e.key === "Escape"){ closeModal(); closeGame(); }
+  });
+
+  // ===== TOC =====
+  const toc = document.getElementById("toc");
+  pages.forEach((p, i)=>{
+    const b = document.createElement("button");
+    b.className = "tocBtn";
+    b.innerHTML = `<span>${p.toc}</span><small>Go</small>`;
+    b.addEventListener("click", ()=>{ idx=i; renderPage(); spawnHearts(14); });
+    toc.appendChild(b);
+  });
+
+  renderPage();
+
+  // ===== Love meter =====
+  let love = 30;
+  const bar = document.getElementById("bar");
+  const meterLabel = document.getElementById("meterLabel");
+  const meterToast = document.getElementById("meterToast");
+
+  function setLove(v){
+    love = Math.max(0, Math.min(100, v));
+    bar.style.width = love + "%";
+    meterLabel.textContent = love + "%";
+    meterToast.style.display = "block";
+    meterToast.textContent = love >= 100 ? "MAX LOVE 💗💗💗" : "Added love ✨";
+    spawnHearts(10);
+  }
+  document.getElementById("addLove").addEventListener("click", ()=> setLove(love + 10));
+  document.getElementById("resetLove").addEventListener("click", ()=> setLove(0));
+  setLove(love);
+
+  // ===== GAME: Catch falling hearts with a bouquet =====
+  const gameModal = document.getElementById("gameModal");
+  const openGameBtn = document.getElementById("openGameBtn");
+  const closeGameBtn = document.getElementById("closeGameBtn");
+  const startGameBtn = document.getElementById("startGameBtn");
+  const canvas = document.getElementById("game");
+  const ctx = canvas.getContext("2d");
+
+  const scoreEl = document.getElementById("score");
+  const bestEl = document.getElementById("best");
+  const spdEl = document.getElementById("spd");
+
+  let running = false;
+  let raf = null;
+
+  // bouquet
+  let basket = { x: canvas.width/2, y: canvas.height-55, w: 150, h: 28 };
+  let mouseX = basket.x;
+  let dragging = false;
+
+  // hearts
+  let heartsArr = [];
+  let score = 0;
+  let best = Number(localStorage.getItem("vday_best") || 0);
+  bestEl.textContent = best;
+
+  // speed
+  let baseSpeed = 2.0;   // increases over time
+  let spawnRate = 0.025; // chance per frame
+
+  function openGame(){
+    gameModal.classList.add("open");
+    fitCanvasToCSS();
+    drawSplash();
+  }
+  function closeGame(){
+    gameModal.classList.remove("open");
+    stopGame();
+  }
+
+  openGameBtn.addEventListener("click", openGame);
+  closeGameBtn.addEventListener("click", closeGame);
+  gameModal.addEventListener("click", (e)=>{ if(e.target === gameModal) closeGame(); });
+
+  function fitCanvasToCSS(){
+    // keep internal resolution stable; but if you want sharper:
+    const rect = canvas.getBoundingClientRect();
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    const w = Math.round(rect.width * dpr);
+    const h = Math.round(rect.height * dpr);
+    canvas.width = w;
+    canvas.height = h;
+    ctx.setTransform(dpr,0,0,dpr,0,0); // draw using CSS pixels
+  }
+
+  window.addEventListener("resize", ()=>{
+    if(gameModal.classList.contains("open")){
+      fitCanvasToCSS();
+    }
+  });
+
+  function resetGame(){
+    heartsArr = [];
+    score = 0;
+    baseSpeed = 2.0;
+    spawnRate = 0.025;
+    basket.x = canvas.getBoundingClientRect().width/2;
+    mouseX = basket.x;
+    updateHUD();
+  }
+
+  function startGame(){
+    resetGame();
+    running = true;
+    loop();
+  }
+  function stopGame(){
+    running = false;
+    if(raf) cancelAnimationFrame(raf);
+    raf = null;
+  }
+
+  startGameBtn.addEventListener("click", ()=>{
+    if(!running) startGame();
+  });
+
+  function updateHUD(){
+    scoreEl.textContent = score;
+    bestEl.textContent = best;
+    spdEl.textContent = (baseSpeed/2).toFixed(1) + "x";
+  }
+
+  function drawBouquet(){
+    // bouquet base
+    ctx.save();
+    ctx.translate(basket.x, basket.y);
+
+    // shadow glow
+    ctx.globalAlpha = 0.35;
+    ctx.fillStyle = "#ff86c7";
+    roundRect(ctx, -basket.w/2, -10, basket.w, basket.h+18, 18);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+
+    // handle wrap (like bouquet)
+    ctx.fillStyle = "rgba(255,255,255,.18)";
+    roundRect(ctx, -basket.w/2, 0, basket.w, basket.h, 18);
+    ctx.fill();
+
+    // bouquet flowers (circles)
+    const flowerY = -14;
+    const centers = [-50, -25, 0, 25, 50];
+    centers.forEach((cx, i)=>{
+      ctx.beginPath();
+      ctx.fillStyle = i%2===0 ? "rgba(255,90,165,.95)" : "rgba(139,92,246,.95)";
+      ctx.arc(cx, flowerY, 10, 0, Math.PI*2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.fillStyle = "rgba(34,211,238,.85)";
+      ctx.arc(cx+6, flowerY-4, 5, 0, Math.PI*2);
+      ctx.fill();
+    });
+
+    // ribbon
+    ctx.beginPath();
+    ctx.fillStyle = "rgba(255,255,255,.20)";
+    ctx.moveTo(-12, 10);
+    ctx.quadraticCurveTo(0, 2, 12, 10);
+    ctx.quadraticCurveTo(0, 20, -12, 10);
+    ctx.fill();
+
+    ctx.restore();
+  }
+
+  function addHeart(){
+    const rect = canvas.getBoundingClientRect();
+    const x = Math.random() * rect.width;
+    const size = 10 + Math.random()*12;
+    const vx = (Math.random()-0.5) * 0.8;
+    const vy = baseSpeed + Math.random()*1.8;
+    const hue = Math.random() < 0.6 ? 330 : 290;
+    heartsArr.push({x, y:-30, size, vx, vy, hue, rot: Math.random()*Math.PI});
+  }
+
+  function drawHeart(h){
+    ctx.save();
+    ctx.translate(h.x, h.y);
+    ctx.rotate(h.rot);
+    ctx.scale(h.size/16, h.size/16);
+
+    // heart shape
+    ctx.beginPath();
+    ctx.moveTo(0, 4);
+    ctx.bezierCurveTo(0, -4, -8, -4, -8, 4);
+    ctx.bezierCurveTo(-8, 10, 0, 12, 0, 16);
+    ctx.bezierCurveTo(0, 12, 8, 10, 8, 4);
+    ctx.bezierCurveTo(8, -4, 0, -4, 0, 4);
+    ctx.closePath();
+    ctx.fillStyle = `hsla(${h.hue},100%,70%,0.95)`;
+    ctx.shadowColor = "rgba(0,0,0,.25)";
+    ctx.shadowBlur = 10;
+    ctx.fill();
+
+    ctx.restore();
+  }
+
+  function collide(h){
+    const bx = basket.x - basket.w/2;
+    const by = basket.y - 10;
+    const bw = basket.w;
+    const bh = basket.h + 20;
+    return (h.x > bx && h.x < bx + bw && h.y + h.size > by && h.y < by + bh);
+  }
+
+  function loop(){
+    const rect = canvas.getBoundingClientRect();
+    const W = rect.width;
+    const H = rect.height;
+
+    // clear
+    ctx.clearRect(0,0,W,H);
+
+    // background sparkles
+    ctx.save();
+    ctx.globalAlpha = 0.08;
+    for(let i=0;i<12;i++){
+      ctx.beginPath();
+      ctx.fillStyle = "white";
+      ctx.arc(Math.random()*W, Math.random()*H, Math.random()*2.2, 0, Math.PI*2);
+      ctx.fill();
+    }
+    ctx.restore();
+
+    // follow pointer
+    basket.x += (mouseX - basket.x) * 0.22;
+    basket.x = Math.max(basket.w/2, Math.min(W - basket.w/2, basket.x));
+    basket.y = H - 55;
+
+    // spawn hearts
+    if(Math.random() < spawnRate) addHeart();
+
+    // increase difficulty slowly (infinite)
+    baseSpeed += 0.0009;             // speed up
+    spawnRate = Math.min(0.09, spawnRate + 0.00002); // spawn more hearts
+    updateHUD();
+
+    // update hearts
+    for(let i=heartsArr.length-1;i>=0;i--){
+      const h = heartsArr[i];
+      h.x += h.vx;
+      h.y += h.vy;
+      h.rot += 0.01;
+
+      drawHeart(h);
+
+      if(collide(h)){
+        heartsArr.splice(i,1);
+        score += 1;
+        if(score > best){
+          best = score;
+          localStorage.setItem("vday_best", String(best));
+        }
+        spawnHearts(6);
+        continue;
+      }
+      if(h.y > H + 40){
+        heartsArr.splice(i,1);
+      }
+    }
+
+    // bouquet
+    drawBouquet();
+
+    // score title
+    ctx.save();
+    ctx.globalAlpha = 0.9;
+    ctx.fillStyle = "rgba(255,255,255,.85)";
+    ctx.font = "700 14px ui-sans-serif,system-ui";
+    ctx.fillText("Catch the hearts 💗", 16, 24);
+    ctx.restore();
+
+    if(running) raf = requestAnimationFrame(loop);
+  }
+
+  function drawSplash(){
+    const rect = canvas.getBoundingClientRect();
+    const W = rect.width, H = rect.height;
+    ctx.clearRect(0,0,W,H);
+    ctx.save();
+    ctx.fillStyle = "rgba(255,255,255,.85)";
+    ctx.font = "900 20px ui-sans-serif,system-ui";
+    ctx.fillText("💐 Catch Falling Hearts", 18, 46);
+    ctx.fillStyle = "rgba(194,195,230,.95)";
+    ctx.font = "700 14px ui-sans-serif,system-ui";
+    ctx.fillText("Click Start, then drag / move bouquet to catch hearts.", 18, 74);
+    ctx.fillText("Infinite score. Speed increases over time.", 18, 96);
+    ctx.restore();
+
+    // draw bouquet preview
+    basket.x = W/2; basket.y = H-55;
+    mouseX = basket.x;
+    drawBouquet();
+  }
+
+  function roundRect(ctx, x, y, w, h, r){
+    const rr = Math.min(r, w/2, h/2);
+    ctx.beginPath();
+    ctx.moveTo(x+rr, y);
+    ctx.arcTo(x+w, y, x+w, y+h, rr);
+    ctx.arcTo(x+w, y+h, x, y+h, rr);
+    ctx.arcTo(x, y+h, x, y, rr);
+    ctx.arcTo(x, y, x+w, y, rr);
+    ctx.closePath();
+  }
+
+  // pointer controls (mouse + touch)
+  function pointerXFromEvent(e){
+    const rect = canvas.getBoundingClientRect();
+    if(e.touches && e.touches[0]) return e.touches[0].clientX - rect.left;
+    return e.clientX - rect.left;
+  }
+
+  canvas.addEventListener("mousedown", (e)=>{ dragging = true; mouseX = pointerXFromEvent(e); });
+  window.addEventListener("mousemove", (e)=>{ if(dragging){ mouseX = pointerXFromEvent(e); } });
+  window.addEventListener("mouseup", ()=> dragging=false);
+
+  canvas.addEventListener("touchstart", (e)=>{ dragging = true; mouseX = pointerXFromEvent(e); e.preventDefault(); }, {passive:false});
+  canvas.addEventListener("touchmove", (e)=>{ if(dragging){ mouseX = pointerXFromEvent(e); } e.preventDefault(); }, {passive:false});
+  canvas.addEventListener("touchend", ()=> dragging=false);
+
+  // allow mouse hover movement too (nice feel)
+  canvas.addEventListener("mousemove", (e)=>{ if(!dragging) mouseX = pointerXFromEvent(e); });
+
+  function closeGameByEscape(){
+    if(gameModal.classList.contains("open")) closeGame();
+  }
+  document.addEventListener("keydown", (e)=>{ if(e.key === "Escape") closeGameByEscape(); });
+
+</script>
+</body>
+</html>
